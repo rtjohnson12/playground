@@ -1,6 +1,7 @@
 
 import random
 import tkinter as tk
+import os
 
 class Game(tk.Frame):
   """GUI for Monty Hall show"""
@@ -8,8 +9,9 @@ class Game(tk.Frame):
   doors = ('a', 'b', 'c')
   def __init__(self, parent):
     super(Game, self).__init__(parent)
+    
     self.parent = parent
-    self.img_file = 'assets/all_closed.png'
+    self.img_file = 'all_closed.png'
     self.choice = ''
     self.winner = ''
     self.reveal = ''
@@ -17,11 +19,11 @@ class Game(tk.Frame):
     self.first_choice_wins = 0
     self.change_doors_wins = 0
     self.create_widgets()
-
+    
   def create_widgets(self):
     """Create label, button, and text widgets."""
     # add labels to image of doors
-    img = tk.PhotoImage(file = 'assets/all_closed.png')
+    img = tk.PhotoImage(file = 'all_closed.png')
     self.photo_lbl = tk.Label(self.parent, image = img, text = '', borderwidth = 0)
     self.photo_lbl.grid(row = 0, column = 0, columnspan = 10, sticky = 'W')
     self.photo_lbl.image = img
@@ -68,81 +70,81 @@ class Game(tk.Frame):
     self.unchanged_wins_txt.grid(row = 1, column = 5, columnspan = 5)
     self.changed_wins_txt.grid(row = 2, column = 5, columnspan = 5)
     
-    def update_image(self):
-      """Update current doors image."""
-      img = tkPhotoImage(file = self.img_file)
-      self.photo_lbl.configure(image = img)
-      self.photo_lbl.image = img
-      
-    def win_reveal(self):
-      """Randomly pick winner and reveal unchosen door."""
-      door_list = list(self.doors)
-      self.choice = self.door_choice.get()
-      self.winner = random.choice(door_list)
-      
-      door_list.remove(self.winner)
-      
-      if self.choice in door_list:
-        door_list.remove(self.choice)
-        self.reveal = door_list[0]
-      else:
-        self.reveal = random.choice(door_list)
-        
-      self.img_file = ('assets/reveal_{}.png'.format(self.reveal))
-      self.update_image()
-      
-      # turn on and clear yes/no buttons
-      self.yes.config(state = 'normal')
-      self.no.config(state = 'normal')
-      self.change_door.set(None)
-      
-      # close doors after opening
-      self.img_file = 'assets/all_closed.png'
-      self.parent.after(2000, self.update_image)
-      
-    def show_final(self):
-      """Reveal image behind user's final door choice & count wins."""
-      door_list = list(self.doors)
-      switch_doors = self.change_door.get()
-      
-      if switch_doors == 'y':
-        door_list.remove(self.choice)
-        door_list.remove(self.reveal)
-        new_pick = door_list[0]
-        
-        if new_pick == self.winner:
-          self.img_file = 'assets/money_{}.png'.format(new_pick)
-          self.change_doors_wins += 1
-        else:
-          self.img_file = 'assets/goat_{}.png'.format(self.choice)
-          self.first_choice_wins += 1
-          
-      elif switch_doors == 'n':
-        if new_pick == self.winner:
-          self.img_file = 'assets/goat_{}.png'.format(self.choice)
-          self.first_choice_wins += 1
-        else:
-          self.img_file = 'assets/money_{}.png'.format(new_pick)
-          self.change_doors_wins += 1
+  def update_image(self):
+    """Update current doors image."""
+    img = tkPhotoImage(file = self.img_file)
+    self.photo_lbl.configure(image = img)
+    self.photo_lbl.image = img
     
-      # update door image
-      self.update_image()
+  def win_reveal(self):
+    """Randomly pick winner and reveal unchosen door."""
+    door_list = list(self.doors)
+    self.choice = self.door_choice.get()
+    self.winner = random.choice(door_list)
+    
+    door_list.remove(self.winner)
+    
+    if self.choice in door_list:
+      door_list.remove(self.choice)
+      self.reveal = door_list[0]
+    else:
+      self.reveal = random.choice(door_list)
       
-      # update displayed statistics
-      self.unchaged_wins_txt.delete(1.0, 'end')
-      self.unchaged_wins_txt.insert(1.0, 'Unchanged wins = {:d}'.format(self.first_choice_wins))
+    self.img_file = ('reveal_{}.png'.format(self.reveal))
+    self.update_image()
+    
+    # turn on and clear yes/no buttons
+    self.yes.config(state = 'normal')
+    self.no.config(state = 'normal')
+    self.change_door.set(None)
+    
+    # close doors after opening
+    self.img_file = 'all_closed.png'
+    self.parent.after(2000, self.update_image)
+    
+  def show_final(self):
+    """Reveal image behind user's final door choice & count wins."""
+    door_list = list(self.doors)
+    switch_doors = self.change_door.get()
+    
+    if switch_doors == 'y':
+      door_list.remove(self.choice)
+      door_list.remove(self.reveal)
+      new_pick = door_list[0]
       
-      self.changed_wins_txt.delete(1.0, 'end')
-      self.changed_wins_txt.insert(1.0, 'Changed wins = {:d}'.format(self.change_doors_wins))
-      
-      # turn off yes/no buttons and clear door choice buttons
-      self.yes.config(state = 'disabled')
-      self.no.config(state = 'disabled')
-      self.door_choice.set(None)
-      
-      # close doors after opening
-      self.img_file = 'assets/all_closed.png'
-      self.parent.after(2000, self.update_image)
+      if new_pick == self.winner:
+        self.img_file = 'money_{}.png'.format(new_pick)
+        self.change_doors_wins += 1
+      else:
+        self.img_file = 'goat_{}.png'.format(self.choice)
+        self.first_choice_wins += 1
+        
+    elif switch_doors == 'n':
+      if new_pick == self.winner:
+        self.img_file = 'goat_{}.png'.format(self.choice)
+        self.first_choice_wins += 1
+      else:
+        self.img_file = 'money_{}.png'.format(new_pick)
+        self.change_doors_wins += 1
+  
+    # update door image
+    self.update_image()
+    
+    # update displayed statistics
+    self.unchaged_wins_txt.delete(1.0, 'end')
+    self.unchaged_wins_txt.insert(1.0, 'Unchanged wins = {:d}'.format(self.first_choice_wins))
+    
+    self.changed_wins_txt.delete(1.0, 'end')
+    self.changed_wins_txt.insert(1.0, 'Changed wins = {:d}'.format(self.change_doors_wins))
+    
+    # turn off yes/no buttons and clear door choice buttons
+    self.yes.config(state = 'disabled')
+    self.no.config(state = 'disabled')
+    self.door_choice.set(None)
+    
+    # close doors after opening
+    self.img_file = 'all_closed.png'
+    self.parent.after(2000, self.update_image)
       
 # set up root window and run event loop
 root = tk.Tk()
