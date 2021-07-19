@@ -1,8 +1,8 @@
 ### Hi there, I'm Ryan 👋
 
 - 🌱 I’m currently reading the Mythos series by Stephen Fry
-- 🥅 2021 Goals: Contribute more to Open Source projects
-- ⚡ Fun fact: I'm a huge linguaphile!
+- 🥅 2021 Goals: Get out of the house more (safely)
+- ⚡ About me: I'm a huge linguaphile!
 
 <br />
 
