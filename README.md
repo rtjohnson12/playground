@@ -1,8 +1,6 @@
 ### Hi there, I'm Ryan 👋
 
 - 🌱 I’m currently reading the Mythos series by Stephen Fry
-- 🥅 2021 Goals: Get out of the house more (safely)
-- ⚡ About me: I'm a huge linguaphile!
 
 <br />
 
