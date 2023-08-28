@@ -1,6 +1,4 @@
-# Data Science Portfolio by Ryan
-
-<img src="img/me.jpeg" width="200" height="200" alt="Data Scientist">
+# 📁 Data Science Portfolio
 
 ---
 
