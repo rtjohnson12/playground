@@ -15,7 +15,7 @@ This repository serves as a collection of the projects I've worked on or current
 
 ## Portfolio Projects 🗂
 
-### Customer Segmentation Using Clustering
+### LingQ Lesson Importer
 
 - **Repository**: https://github.com/rtjohnson12/lingq-importer
 - **Technologies**: Python
